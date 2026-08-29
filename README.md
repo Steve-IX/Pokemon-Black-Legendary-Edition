@@ -1,9 +1,9 @@
 # Pokémon Black: Legendary Edition (Web & Engine)
 
-[![Vercel Deployment](https://img.shields.io/badge/Deployment-Vercel-black?logo=vercel&logoColor=white)](https://vercel.com)
-[![Platform](https://img.shields.io/badge/Platform-Nintendo%20DS%20%7C%20WebAssembly-blue)](https://github.com/Steve-IX/Pokemon-Black-Legendary-Edition)
-[![Architecture](https://img.shields.io/badge/Engine-NitroFS%20%2F%20ARM9-brightgreen)](#)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](#)
+[![Live Web Player](https://img.shields.io/badge/Play%20Online-Vercel%20App-00e5ff?style=for-the-badge&logo=vercel&logoColor=white)](https://pokemon-black-legendary-edition.vercel.app/)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Steve-IX/Pokemon-Black-Legendary-Edition)
+
+🎮 **Play Live In-Browser**: [https://pokemon-black-legendary-edition.vercel.app/](https://pokemon-black-legendary-edition.vercel.app/)
 
 A fully reverse-engineered, custom modified edition of **Pokémon Black Version** (`IRBO`) that replaces starter selection mechanisms with authentic **680 Base Stat Total (BST)** Legendary Pokémon, complete with 3D model overrides, 2D in-battle animated sprite sheets, native Level 70 signatures, and in-browser WebAssembly emulation.
 

@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Custom Pokémon Black Version (Legendary Edition) web player and mod showcase powered by WebAssembly.",
   "scripts": {
-    "start": "node server.js",
-    "serve": "npx serve ."
+    "dev": "node server.js",
+    "build": "echo 'Static deployment ready'"
   },
   "keywords": [
     "pokemon",
