@@ -91,14 +91,6 @@ Railway runs the full production Node.js server container with native Cross-Orig
 2. Import `Steve-IX/Pokemon-Black-Legendary-Edition`.
 3. Keep default settings (Framework: *Other*, Root Directory: `./`) and click **Deploy**.
 
-### Option 3: Local Development Server
-```bash
-# Start local production server
-npm start
-# (or: node server.js)
-```
-Open `http://localhost:3000` in your web browser.
-
 ---
 
 ## 📜 License
