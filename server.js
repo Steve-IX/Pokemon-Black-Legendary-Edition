@@ -7,6 +7,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const zlib = require('zlib');
 
 const PORT = parseInt(process.env.PORT, 10) || 3000;
 const HOST = '0.0.0.0';
@@ -25,12 +26,16 @@ const MIME_TYPES = {
   '.nds': 'application/octet-stream'
 };
 
+const COMPRESSIBLE = new Set(['.html', '.css', '.js', '.mjs', '.json', '.svg']);
+
 const server = http.createServer((req, res) => {
   // CORS & Cross-Origin Isolation Headers for WebAssembly
   res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
   res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+  res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
+  res.setHeader('Accept-Ranges', 'bytes');
 
   if (req.method === 'OPTIONS') {
     res.writeHead(204);
@@ -49,7 +54,6 @@ const server = http.createServer((req, res) => {
 
   fs.stat(filePath, (err, stats) => {
     if (err || !stats.isFile()) {
-      // 404 fallback to index.html for SPA routing
       const indexPath = path.join(__dirname, 'index.html');
       fs.readFile(indexPath, (indexErr, indexData) => {
         if (indexErr) {
@@ -65,22 +69,42 @@ const server = http.createServer((req, res) => {
 
     const ext = path.extname(filePath).toLowerCase();
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
+    const etag = `W/"${stats.size}-${stats.mtimeMs}"`;
 
-    // Aggressive caching for static chunks, no-cache for HTML/JS
-    const cacheControl = ext === '.bin'
-      ? 'public, max-age=31536000, immutable'
-      : 'public, max-age=3600, must-revalidate';
+    if (req.headers['if-none-match'] === etag) {
+      res.writeHead(304);
+      res.end();
+      return;
+    }
 
-    res.writeHead(200, {
+    // ROM chunks are pre-deflated, so only text assets go through gzip.
+    const acceptsGzip = /\bgzip\b/.test(req.headers['accept-encoding'] || '');
+    const shouldCompress = acceptsGzip && COMPRESSIBLE.has(ext);
+
+    const headers = {
       'Content-Type': contentType,
-      'Content-Length': stats.size,
-      'Cache-Control': cacheControl
-    });
+      'Cache-Control': ext === '.bin'
+        ? 'public, max-age=31536000, immutable'
+        : 'public, max-age=3600, must-revalidate',
+      ETag: etag
+    };
 
-    const stream = fs.createReadStream(filePath);
-    stream.pipe(res);
+    if (shouldCompress) {
+      headers['Content-Encoding'] = 'gzip';
+      headers.Vary = 'Accept-Encoding';
+      res.writeHead(200, headers);
+      fs.createReadStream(filePath).pipe(zlib.createGzip({ level: 6 })).pipe(res);
+      return;
+    }
+
+    headers['Content-Length'] = stats.size;
+    res.writeHead(200, headers);
+    fs.createReadStream(filePath, { highWaterMark: 1024 * 1024 }).pipe(res);
   });
 });
+
+server.keepAliveTimeout = 65000;
+server.headersTimeout = 70000;
 
 server.listen(PORT, HOST, () => {
   console.log(`========================================================`);

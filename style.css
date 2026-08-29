@@ -45,6 +45,7 @@ body::before {
   background-size: 32px 32px;
   pointer-events: none;
   z-index: 0;
+  contain: strict;
 }
 
 .container {
@@ -219,6 +220,15 @@ header {
 #game-container {
   width: 100%;
   height: 100%;
+  contain: layout paint size;
+}
+
+/* Keep DS output sharp and off the compositor's slow path. */
+#game-container canvas {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  will-change: transform;
+  outline: none;
 }
 
 /* Loading Screen Overlay */
