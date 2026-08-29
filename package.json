@@ -1,0 +1,19 @@
+{
+  "name": "pokemon-black-legendary-edition-web",
+  "version": "1.0.0",
+  "description": "Custom Pokémon Black Version (Legendary Edition) web player and mod showcase powered by WebAssembly.",
+  "scripts": {
+    "start": "node server.js",
+    "serve": "npx serve ."
+  },
+  "keywords": [
+    "pokemon",
+    "nds",
+    "emulator",
+    "webassembly",
+    "rom-hack",
+    "vercel"
+  ],
+  "author": "Reverse Engineering Project",
+  "license": "MIT"
+}

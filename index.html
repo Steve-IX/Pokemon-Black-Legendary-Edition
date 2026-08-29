@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokémon Black: Legendary Edition — Online Web Emulator</title>
+  <meta name="description" content="Play the custom modified Pokémon Black Version (Legendary Edition) directly in your browser. Powered by WebAssembly and Nintendo DS emulation.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Enable Cross-Origin Isolation for SharedArrayBuffer / WebAssembly Threads -->
+  <script src="coi-serviceworker.js"></script>
+  <!-- Pako decompressor fallback for maximum browser compatibility -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="brand">
+        <span class="logo-badge">NDS WASM</span>
+        <h1>Pokémon Black: Legendary Edition</h1>
+      </div>
+      <div class="header-badges">
+        <span class="badge pulse">WebAssembly Core Ready</span>
+        <span class="badge">680 BST Mod Active</span>
+      </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="main-grid">
+      <!-- Left Column: Emulator Screen & Controls -->
+      <section class="emulator-section">
+        <div class="emulator-card">
+          <!-- Toolbar -->
+          <div class="emulator-toolbar">
+            <span class="toolbar-title">Nintendo DS Dual-Screen Engine</span>
+            <div class="toolbar-actions">
+              <button id="btn-layout" class="btn-tool">🖥️ Side-by-Side</button>
+              <button id="btn-fullscreen" class="btn-tool">⛶ Fullscreen</button>
+            </div>
+          </div>
+
+          <!-- Screen Container -->
+          <div id="screen-wrapper" class="screen-wrapper">
+            <!-- Loading Overlay -->
+            <div id="loading-overlay" class="loading-overlay">
+              <div id="loading-spinner" class="spinner" style="display: none;"></div>
+              <h3 id="loading-title" class="loading-title">Pokémon Black: Legendary Edition</h3>
+              <p id="loading-status" class="loading-status">Click Launch to stream and run the custom Nintendo DS ROM in-browser.</p>
+              
+              <div class="progress-bar-container">
+                <div id="progress-bar-fill" class="progress-bar-fill"></div>
+              </div>
+
+              <button id="btn-start" class="btn-start">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                Launch Game
+              </button>
+            </div>
+
+            <!-- EmulatorJS Canvas Container -->
+            <div id="game-container"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Controls & Mod Features -->
+      <aside class="sidebar">
+        <!-- PC Keyboard Controls Card -->
+        <div class="card">
+          <h2>⌨️ PC Keyboard & Controller Bindings</h2>
+          <div class="controls-grid">
+            <div class="control-item">
+              <span class="control-label">D-Pad (Move)</span>
+              <span><kbd>▲</kbd> <kbd>◀</kbd> <kbd>▼</kbd> <kbd>▶</kbd> / <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span>
+            </div>
+            <div class="control-item">
+              <span class="control-label">A (Interact/Talk)</span>
+              <span><kbd>X</kbd> / <kbd>K</kbd></span>
+            </div>
+            <div class="control-item">
+              <span class="control-label">B (Cancel/Run)</span>
+              <span><kbd>Z</kbd> / <kbd>J</kbd></span>
+            </div>
+            <div class="control-item">
+              <span class="control-label">X (Menu)</span>
+              <span><kbd>S</kbd> / <kbd>I</kbd></span>
+            </div>
+            <div class="control-item">
+              <span class="control-label">Y (Register)</span>
+              <span><kbd>A</kbd> / <kbd>U</kbd></span>
+            </div>
+            <div class="control-item">
+              <span class="control-label">L / R Triggers</span>
+              <span><kbd>Q</kbd> / <kbd>E</kbd></span>
+            </div>
+            <div class="control-item">
+              <span class="control-label">Start</span>
+              <span><kbd>Enter</kbd></span>
+            </div>
+            <div class="control-item">
+              <span class="control-label">Select</span>
+              <span><kbd>Space</kbd></span>
+            </div>
+            <div class="control-item" style="grid-column: span 2;">
+              <span class="control-label">Touchscreen / Stylus</span>
+              <span><kbd>Mouse Left Click & Drag</kbd></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Custom Mod Highlights -->
+        <div class="card">
+          <h2>⚡ Mod Features & Overrides</h2>
+          <div class="mod-list">
+            <div class="mod-item">
+              <span class="mod-icon">🐉</span>
+              <div>
+                <strong>Starter #1: Reshiram</strong><br>
+                Dragon / Fire • 680 BST • <em>Blue Flare, Fusion Flare, Dragon Pulse</em>
+              </div>
+            </div>
+            <div class="mod-item">
+              <span class="mod-icon">⚡</span>
+              <div>
+                <strong>Starter #2: Zekrom</strong><br>
+                Dragon / Electric • 680 BST • <em>Bolt Strike, Fusion Bolt, Zen Headbutt</em>
+              </div>
+            </div>
+            <div class="mod-item">
+              <span class="mod-icon">❄️</span>
+              <div>
+                <strong>Starter #3: Kyurem</strong><br>
+                Dragon / Ice • 660 BST • <em>Glaciate, Blizzard, Ice Beam, Dragon Pulse</em>
+              </div>
+            </div>
+            <div class="mod-item">
+              <span class="mod-icon">🎨</span>
+              <div>
+                <strong>Visual & Audio Overhauls:</strong><br>
+                3D Stage Models + 2D Animated In-Battle Sprites + Level 70 Opening Rival Battles.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Save State Management -->
+        <div class="card">
+          <h2>💾 Save Manager</h2>
+          <p style="font-size: 13px; color: var(--text-secondary);">Your progress automatically saves in browser storage (IndexedDB).</p>
+          <div class="save-actions">
+            <button id="btn-export-save" class="btn-secondary">Export Save (.sav)</button>
+            <button id="btn-import-save" class="btn-secondary">Import Save</button>
+            <input type="file" id="file-import-save" style="display: none;" accept=".sav,.dsv,.srm">
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <p>Custom Pokémon Black Version Reverse Engineered & Built with Ghidra and WebAssembly.</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
