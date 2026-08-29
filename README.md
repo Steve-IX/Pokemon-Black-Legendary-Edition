@@ -67,10 +67,10 @@ graph TD
 
 This repository contains the full programmatic toolchain used to reverse-engineer and rebuild the ROM:
 
-- [`nds_pokemon_customizer.py`](nds_pokemon_customizer.py): NitroFS FAT parser, NARC unpacker/packer, 3D model & 2D battle sprite injector, and stat recalculator.
-- [`game_runner.py`](game_runner.py): Desktop emulator launcher, process supervisor, and binary save injector.
-- [`memory_tracer.py`](memory_tracer.py): Real-time ARM9 RAM inspector for emulator process debugging.
-- [`REVERSE_ENGINEERING_REPORT.md`](REVERSE_ENGINEERING_REPORT.md): Complete technical breakdown of Nintendo DS file tables, encryption schemes, and memory structures.
+- [`tools/nds_pokemon_customizer.py`](tools/nds_pokemon_customizer.py): NitroFS FAT parser, NARC unpacker/packer, 3D model & 2D battle sprite injector, and stat recalculator.
+- [`tools/game_runner.py`](tools/game_runner.py): Desktop emulator launcher, process supervisor, and binary save injector.
+- [`tools/memory_tracer.py`](tools/memory_tracer.py): Real-time ARM9 RAM inspector for emulator process debugging.
+- [`docs/REVERSE_ENGINEERING_REPORT.md`](docs/REVERSE_ENGINEERING_REPORT.md): Complete technical breakdown of Nintendo DS file tables, encryption schemes, and memory structures.
 
 ---
 
@@ -78,6 +78,9 @@ This repository contains the full programmatic toolchain used to reverse-enginee
 
 ### Local Development Server
 ```bash
+# Serve static files locally
+npx serve .
+```
 # Install dependencies & run local server with Cross-Origin Isolation headers
 npm start
 # (or: node server.js)
