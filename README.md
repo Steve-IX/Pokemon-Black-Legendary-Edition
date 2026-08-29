@@ -76,37 +76,30 @@ This repository contains the full programmatic toolchain used to reverse-enginee
 
 ## 🚀 How to Run & Deploy
 
-### Local Development Server
+### Option 1: Deploy to Railway (Recommended - 1-Click / Zero Config)
+
+Railway runs the full production Node.js server container with native Cross-Origin Isolation headers, unrestricted streaming, and automatic HTTPS:
+
+1. Go to **[railway.app](https://railway.app)** and click **New Project**.
+2. Select **Deploy from GitHub repo** $\rightarrow$ choose `Steve-IX/Pokemon-Black-Legendary-Edition`.
+3. Railway automatically detects the `Dockerfile` / `server.js` and deploys your web player.
+4. Click **Settings** $\rightarrow$ **Generate Domain** (e.g. `pokemon-black-legendary.up.railway.app`).
+
+### Option 2: Deploy to Vercel
+
+1. Open [Vercel Dashboard](https://vercel.com) $\rightarrow$ Click **Add New Project**.
+2. Import `Steve-IX/Pokemon-Black-Legendary-Edition`.
+3. Keep default settings (Framework: *Other*, Root Directory: `./`) and click **Deploy**.
+
+### Option 3: Local Development Server
 ```bash
-# Serve static files locally
-npx serve .
-```
-# Install dependencies & run local server with Cross-Origin Isolation headers
+# Start local production server
 npm start
 # (or: node server.js)
 ```
-Visit `http://localhost:3000` in your web browser.
-
-### Deploy to Vercel
-
-#### Option 1: Vercel Dashboard (GitHub Sync)
-1. Push this repository to GitHub: `Steve-IX/Pokemon-Black-Legendary-Edition`.
-2. Open [Vercel Dashboard](https://vercel.com) $\rightarrow$ Click **Add New Project**.
-3. Import `Steve-IX/Pokemon-Black-Legendary-Edition`.
-4. Keep default settings (Framework: *Other*, Root Directory: `./`) and click **Deploy**.
-
-#### Option 2: Vercel CLI
-```bash
-npx vercel
-# For production:
-npx vercel --prod
-```
+Open `http://localhost:3000` in your web browser.
 
 ---
 
 ## 📜 License
 Educational reverse engineering and web emulation showcase. Pokémon and Nintendo DS are registered trademarks of Nintendo and Game Freak.
-
-Open `http://localhost:3000` in your web browser.
-
-Open `http://localhost:3000` in your web browser.
