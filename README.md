@@ -1,4 +1,8 @@
 # Pokémon Black: Legendary Edition (Web & Engine)
+<img width="834" height="944" alt="image" src="https://github.com/user-attachments/assets/ac9a866f-c13f-4c48-bba8-086e0742edcf" />
+<img width="794" height="933" alt="image" src="https://github.com/user-attachments/assets/bddf7af2-5883-46c4-84e2-a89eabe7745c" />
+
+
 
 [![Live Web Player](https://img.shields.io/badge/Play%20Online-Vercel%20App-00e5ff?style=for-the-badge&logo=vercel&logoColor=white)](https://pokemon-black-legendary-edition.vercel.app/)
 [![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Steve-IX/Pokemon-Black-Legendary-Edition)
